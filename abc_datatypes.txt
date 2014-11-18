@@ -1,0 +1,35 @@
+Pitch = Pitch(value: int,accidental: int,octave: int)
+NoteLength = NoteLength(numerator: int,denominator: int)
+Note = Note(p: Pitch,l: NoteLength)
+Rest = Rest(l: NoteLength)
+Tuplet = Duplet(a: Note,b: Note) + Triplet(a: Note,b: Note,c: Note) + Quadruplet(a: Note,b: Note,c: Note,d: Note)
+Chord = Chord(notes: ImList<Note>)
+Multinote = Note + Chord
+PlayableElement = Tuplet + Multinote + Rest
+Measure = Measure(elements: ImList<PlayableElement>,measureID: int,isMajorStart: boolean,isMajorEnd: boolean,isRepeatEnd: boolean,isFirstRepeat: boolean,isSecondRepeat: boolean)
+
+isMajorStart should be set to true only for the first Measure in the Voice and for Measures that start with
+	(or start immediately after a measure that ends with) the following bars: "|:", ":|", "[|", "||", "|]"
+isMajorEnd should be set to true only for Measures that end with (or start immediately before a measure that starts with)
+	the same bars specified above -- repeated for convenience: "|:", ":|", "[|", "||", "|]"
+If measure A comes immediately before measure B, then A.isMajorEnd is true iff B.isMajorStart is true.
+
+isRepeatEnd should be set to true only for Measures that end with (or start immediately before a measure that ends with)
+	the following bars: ":|"
+isFirstRepeat should be set to true only for Measures that have the "[1" marker
+isSecondRepeat should be set to true only for Measures that have the "[2" marker
+
+Voice = Voice(name: String, measures: List<Measure>)
+
+KeyMeterTempo = KeyMeterTempo(key: Key, meterNumerator: int, meterDenominator: int, bpm: int, defaultNoteNumerator: int, defaultNoteDenominator: int)
+AbcHeader = AbcHeader(title: String, pieceNumber: int, composer: String, keyMetTempo: KeyMeterTempo, voices: List<String>)
+Key = Key(mask: int, isMinor: boolean) //modifiers is a bitmask containing information about sharps and flats for all notes: binary representation - xbagfedc - x is 1 if sharps, 0 if flats; c is 1 if note C has a modifier; d is 1 if note D has a modifier and so on. Will employ lookup table to translate between key names (e.g. "Cbm") to bitmasks.
+
+ABCMusic = ABCMusic(voices: HashMap<String, Voice>,kmt: KeyMeterTempo)
+ABCFile = ABCFile(header: ABCHeader, music: ABCMusic)
+
+Specification of bitmask configuration in Key:
+Field = 0byxx
+    y - SHARP_OFFSET: 0 if flats, 1 if sharps
+   xx - MAGNITUDE_MASK: 00 if magnitude 0, 01 if magnitude 1, 11 if magnitude 2. 10 is an invalid value.
+ Mask = right to left in 0b, C field + D field + E field + ... + B field

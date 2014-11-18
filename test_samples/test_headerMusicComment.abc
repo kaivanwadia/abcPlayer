@@ -1,0 +1,9 @@
+X: 1
+T:Piece No.1
+M:6/4
+L:1/4 % new header comment inline
+% header comment newline
+Q: 140
+K:C
+% body newline comment 
+C z E z F F   | % body comment inline

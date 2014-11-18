@@ -1,0 +1,48 @@
+Project 2 Grade
+
+Grader:
+
+==============================================
+= Abstract Spec/Design:                  25 / 25
+==============================================
+
+Grammars (4): 4
+
+Datatype productions (8): 8
+
+Grammar amendment (3): 3
+
+Revision (10):10
+
+==============================================
+= Team Contract:                           5 / 5
+==============================================
+
+==============================================
+= Implementation:                           45 / 50
+==============================================
+
+Functionality (25 unit tests 40 points): 37 
+
+Invalid chord not detected. Two voice piece failed, threw token mismatch error 23/25 test cases pass. Overall well done.
+
+Coding style (10): 8
+
+ Use better names than Type and Token. These are very generic. Var names like isSR are very hard to reason about. Especially with 
+no comments describing it.
+
+==============================================
+= Testing:                               15 / 15
+==============================================
+Extensive. Good job
+==============================================
+= Reflection:                             5 / 5
+==============================================
+Be cautious of meeting with less than a full group in groups of three. It's too easy for the two to leave the third person out. Remember that the 
+there is more than just code when evaluating work done. A large portion of the work for this project(and indeed most software engineering) is the design.
+More importantly, any programmer can code something given a design and some time. Creating and evaluating a design is a more unique and valuable skill.
+
+Lateness penalty (-10 per day): 0
+===================
+= Total: 	/ 100 = 95
+===================

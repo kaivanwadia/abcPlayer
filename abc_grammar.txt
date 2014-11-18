@@ -1,0 +1,58 @@
+A subset of ABC 1.6 in BNF format for 6.005 Project 1
+
+abc-file ::= abc-header abc-music
+abc-header ::= field-number comment* field-title other-fields* field-key
+field-title ::= "T:" text end-of-line
+other-fields ::= field-composer | field-default-length | field-meter 
+	| field-tempo | field-voice | comment
+field-composer ::= "C:" text end-of-line
+field-default-length ::= "L:" note-length-strict end-of-line
+field-meter ::= "M:" meter end-of-line
+field-tempo ::= "Q:" tempo end-of-line
+field-voice ::= "V:" text end-of-line
+field-key ::= "K:" key end-of-line
+field-number ::= "X:" key end-of-line
+
+key ::= "C" | "G" | "D" | "A" | "E" | "B" | "F#" | "C#" | "F" | "Bb" | "Eb"
+	| "Ab" | "Db" | "Gb" | "Cb" | "Em" | "Bm" | "F#m" | "C#m" | "G#m" | "D#m"
+	| "A#m" | "Dm" | "Gm" | "Cm" | "Fm" | "Bbm" | "Ebm" | "Abm"
+
+meter ::= "C" | "C|" | meter-fraction
+meter-fraction ::= DIGIT+ "/" DIGIT+ 
+
+tempo ::= DIGIT+
+
+;;;;;;;;; END OF HEADER ;;;;;;;;;
+
+abc-music ::= abc-line+
+abc-line ::= (measure* end-measure end-of-line) | mid-tune-field | comment
+end-measure ::= measure ::= [barline] [space+] [nth-repeat] [space+] playable-element+ [space+] [barline]
+measure ::= [barline] [space+] [nth-repeat] [space+] playable-element+ [space+] barline
+
+playable-element ::= note | chord | tuplet-element
+
+note ::= note-or-rest [note-length]
+note-or-rest ::= pitch | rest
+pitch ::= [accidental] basenote [octave]
+octave ::= ("'"+) | (","+)
+note-length ::= [DIGIT+] ["/" [DIGIT+]]
+note-length-strict ::= DIGIT+ "/" DIGIT+
+accidental ::= "^" | "^^" | "_" | "__" | "="
+
+basenote ::= "C" | "D" | "E" | "F" | "G" | "A" | "B"
+        | "c" | "d" | "e" | "f" | "g" | "a" | "b"
+
+rest ::= "z"
+
+tuplet-element ::= tuplet-spec (note | chord)+
+tuplet-spec ::= "(" DIGIT 
+
+chord ::= "[" note+ "]"
+
+barline ::= "|" | "||" | "[|" | "|]" | ":|" | "|:"
+nth-repeat ::= "[1" | "[2"
+
+;;;;;;;;;;;;;;; MISC ;;;;;;;;;;;;;;
+mid-tune-field- ::= field-voice | field-tempo
+comment ::= "%" text linefeed
+end-of-line ::= comment | linefeed
